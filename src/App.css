@@ -1,38 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  width: 100%;
+  /* height: 100vh; */
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+input[type="checkbox"] {
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+}
+.custom_checkbox {
+  display: inline-block;
+  width: 20px;
+  position: relative;
+  height: 20px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid #97a3ff;
+  margin-right: 5px;
+}
+.checkbox_active::before {
+  content: "";
+  background-image: url("../public/Purple_check.svg");
+
+  background-size: 10px 10px;
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.done {
+  position: relative;
+  opacity: 0.6;
+}
+.done:before {
+  content: "";
+  width: 100%;
+  border-top: 3px solid #97a3ff;
+  position: absolute;
+  top: 50%;
+  left: 0px;
 }
