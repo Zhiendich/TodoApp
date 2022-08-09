@@ -14,6 +14,10 @@ export interface TodoProps {
   interface todoState {
     todos : TodoProps[]
   }
+  interface todoChange {
+    id : string,
+    text : string
+  }
 
   const initialState : todoState = {
     todos : [
@@ -45,25 +49,7 @@ export interface TodoProps {
        if(findCurrentCheckbox) {
         findCurrentCheckbox.caseDone = !findCurrentCheckbox.caseDone
        }
-      
       },
-      
-      // sortTodo : (state, action : PayloadAction<string>) => {
-       
-      //  switch(action.payload) {
-      //   case 'all' :
-      //    state.todos =  initialState.todos
-      //   break
-      //   case 'done' :
-      //   state.todos = initialState.todos
-      //   state.todos =  state.todos.filter(todo => todo.caseDone === true)
-      //   break
-      //   case 'notDone' :
-      //   state.todos =  initialState.todos
-      //   state.todos =  state.todos.filter(todo => todo.caseDone === false)
-      //   break
-      //  }
-      // },
       dragAndDropTodo : (state , action : PayloadAction<TodoProps[]>) => {
        const findSelectedId = state.todos.findIndex(todo => todo.order == action.payload[0].order)
        const findCurrentId = state.todos.findIndex(todo => todo.order == action.payload[1].order)
@@ -71,12 +57,16 @@ export interface TodoProps {
        state.todos[findCurrentId] = state.todos[findSelectedId]
        state.todos[findSelectedId] = currentId
 
+      },
+      changeTodo : (state, action : PayloadAction<todoChange>) => {
+        const findSelectedId = state.todos.findIndex(todo => todo.id == action.payload.id)
+        state.todos[findSelectedId].caseName = action.payload.text
       }
 
     },
   })
   
-  export const { addTodo, removeTodo,  toggleTodo, dragAndDropTodo } = todoSlice.actions
+  export const { addTodo, removeTodo,  toggleTodo, dragAndDropTodo, changeTodo } = todoSlice.actions
   
 
   export const selectCount = (state: RootState) => state.todos

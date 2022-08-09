@@ -1,13 +1,16 @@
-import React, { ChangeEvent, DragEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, DragEvent, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/useTypedSelect";
-import { addTodo, dragAndDropTodo, removeTodo, TodoProps } from "../store/reducer/TodoReducer";
+import { addTodo, changeTodo, dragAndDropTodo, removeTodo, TodoProps } from "../store/reducer/TodoReducer";
+import Form from "./Form";
 
 import TodoItem from "./TodoItem";
 const TodoList = () => {
     const todos = useAppSelector((state) => state.todos.todos);
-    const [dragAndDrop, setDragAndDrop] = useState<TodoProps>({} as any)
+    const [dragAndDrop, setDragAndDrop] = useState<TodoProps>({} as TodoProps)
     const dispatch = useAppDispatch();
     const [addTodoText, setAddTodoText] = useState("");
+    const [showForm, setShowForm] = useState(false)
+    const [findTodo, setFindTodo] = useState("")
     const [sortCategory, setSortCategory] = useState("all");
     const newTodo = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -45,12 +48,16 @@ const TodoList = () => {
         dispatch(dragAndDropTodo([todo, dragAndDrop]))
         e.preventDefault()
     };
-    useEffect(() => {
-
-    })
+    const showAndChangeTodoCase = (id: string) => {
+        const currentTodo = todos.find(todo => todo.id == id)
+        if (currentTodo) {
+            setFindTodo(currentTodo.id)
+            setShowForm(!showForm)
+        }
+    }
     return (
         <div className="bg-white rounded-[20px] mt-6 p-8 text-[#97A3FF]">
-            <h1 className="text-[40px] font-bold">My TODO List</h1>
+            <h1 className="text-[40px] font-bold">Список дел</h1>
             <div className="flex mt-6">
                 <input
                     value={addTodoText}
@@ -79,6 +86,7 @@ const TodoList = () => {
                         caseName={data.caseName}
                         caseDone={data.caseDone}
                         order={data.order}
+                        showAndChangeTodoCase={showAndChangeTodoCase}
                     />))
                 }
                 {sortCategory == 'done' && todos.filter(todo => todo.caseDone == true).map((data) => (
@@ -94,6 +102,7 @@ const TodoList = () => {
                         caseName={data.caseName}
                         caseDone={data.caseDone}
                         order={data.order}
+                        showAndChangeTodoCase={showAndChangeTodoCase}
                     />
                 ))}
                 {sortCategory == 'notDone' && todos.filter(todo => todo.caseDone == false).map((data) => (
@@ -109,6 +118,7 @@ const TodoList = () => {
                         caseName={data.caseName}
                         caseDone={data.caseDone}
                         order={data.order}
+                        showAndChangeTodoCase={showAndChangeTodoCase}
                     />
                 ))}
 
@@ -125,6 +135,7 @@ const TodoList = () => {
                     <option value="notDone">В процессе</option>
                 </select>
             </div>
+            <Form todoId={findTodo} setShowForm={setShowForm} showForm={showForm} />
         </div>
     );
 };

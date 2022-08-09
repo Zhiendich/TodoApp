@@ -54,3 +54,37 @@ input[type="checkbox"] {
   top: 50%;
   left: 0px;
 }
+.modal {
+  display: none;
+}
+.modal.active {
+  display: flex;
+}
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+.close::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.5px;
+  transform: rotate(45deg);
+  height: 15px;
+  background-color: black;
+}
+.close::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 1.5px;
+  transform: rotate(-45deg);
+  height: 15px;
+  background-color: black;
+}
